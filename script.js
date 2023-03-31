@@ -48,12 +48,12 @@ let posCourant=randomPos(tailleTab);
 
 function afficherPersonne(personne)
 {
-    const img=document.querySelector('img');
+    // const img=document.querySelector('img');
     const nom = document.querySelector('#lastname');
     const prenom = document.querySelector('#firstname');
     const telephone = document.querySelector('#phone');
     const email = document.querySelector('#email');
-    const spinner = document.querySelector('.spinner-grow')
+    const spinner = document.querySelector('.spinner')
  
     const photoEl=document.querySelector('.photo');
     const tbody=document.querySelector('tbody');
@@ -64,6 +64,7 @@ function afficherPersonne(personne)
     photoEl.innerHTML=photo.outerHTML;
     //charger les spinners
     photo.onload=()=>{
+        spinner.style.display="none";
         // desactiver le spinner
         // alert('image chargée')
         //afficher les informations du personne
