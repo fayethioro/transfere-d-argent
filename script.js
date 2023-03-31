@@ -53,6 +53,7 @@ function afficherPersonne(personne)
     const prenom = document.querySelector('#firstname');
     const telephone = document.querySelector('#phone');
     const email = document.querySelector('#email');
+    const spinner = document.querySelector('.spinner-grow')
  
     const photoEl=document.querySelector('.photo');
     const tbody=document.querySelector('tbody');
@@ -65,7 +66,7 @@ function afficherPersonne(personne)
     photo.onload=()=>{
         // desactiver le spinner
         // alert('image chargée')
-        //afficher les informations du user
+        //afficher les informations du personne
         nom.innerHTML=personne.nom;
         prenom.innerHTML=personne.prenom;
         telephone.innerHTML=personne.telephone;
@@ -90,7 +91,7 @@ function afficherPersonne(personne)
 function randomPos(max) {
     return Math.floor(Math.random()*max);
 }
-// printUser(tabUser[posCourant]);
+// printpersonne(tabpersonne[posCourant]);
 
 afficherPersonne(personnes[posCourant]);
 
@@ -98,7 +99,7 @@ suivant.addEventListener('click',()=>{
     posCourant=randomPos(tailleTab);
     console.log(posCourant);
     afficherPersonne(personnes[posCourant]);
-    // tabUser[posCourant].transactions.push(newElement)
+    // tabpersonne[posCourant].transactions.push(newElement)
 });
 
 plus.addEventListener('click', () => {
@@ -142,52 +143,51 @@ enregistrer.addEventListener('click', () =>{
     } 
     else
     {
-        erreur.innerHTML = '';
-        cell1.innerHTML=personnes[posCourant].transactions.length + 1 ; 
-        cell2.innerHTML = new Date().toLocaleDateString();
-        cell4.innerHTML = montant.value;
-        // solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
         let sol = solde.innerHTML;
-        
-        if(transa.value == "d")
-        {
-            cell3.innerHTML = 1;
-        }
-        if(transa.value == "r")
-        {
-            cell3.innerHTML = -1;
-            // console.log(cell4.innerHTML);
-        }
-        let  mont = cell4.innerHTML;
-            let  num =  cell1.innerHTML;
-            let  date = cell2.innerHTML;
-            let  sens = cell3.innerHTML;
-            let objet = {
-                numero: num, date: date,  sens: sens, montant: mont 
-                    };
-        if (sens ==-1  && montant.value  > sol)
-        {
-            erreur.innerHTML = 'le montant est supérieur au solde';
-        }
-       else
-       {
-            personnes[posCourant].transactions.push(objet); 
-            console.log(personnes[posCourant]);
-            code.innerHTML=personnes[posCourant].transactions.length;
+        if ( transa.value == "r"  && montant.value  > sol)
+            {
+                erreur.innerHTML = 'le montant est supérieur au solde';
+            }
+        else if (transa.value == "d" && montant.value > 15000)
+            {
+                erreur.innerHTML = 'Vous ne pouvez pas envoyer cette somme';
+            }
+        else
+            {
+                if(transa.value == "d")
+                {
+                    cell3.innerHTML = 1;
+                }
+                if(transa.value == "r")
+                {
+                    cell3.innerHTML = -1;
+                    // console.log(cell4.innerHTML);
+                }
+                erreur.innerHTML = '';
+                cell1.innerHTML=personnes[posCourant].transactions.length + 1 ; 
+                cell2.innerHTML = new Date().toLocaleDateString();
+                cell4.innerHTML = montant.value;
+                let  mont = cell4.innerHTML;
+                let  num =  cell1.innerHTML;
+                let  date = cell2.innerHTML;
+                let  sens = cell3.innerHTML;
+                let objet = {
+                            numero: num, date: date,  sens: sens, montant: mont 
+                        };
+                personnes[posCourant].transactions.push(objet); 
+                console.log(personnes[posCourant]);
+                code.innerHTML=personnes[posCourant].transactions.length;
                 solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
-            afficherPersonne(personnes[posCourant]);
-            form.style.display = 'none';
-       }
-      
+                afficherPersonne(personnes[posCourant]);
+                form.style.display = 'none';
+            }
       }
-    
-  
-    // console.log(addTableRow());
-  })
-  function calculeSolde(users) {
+  });
+
+  function calculeSolde(personnes) {
     let solde = 0;
-    users.forEach(user => {
-      solde += user.montant * user.sens ;
+    personnes.forEach(personne => {
+      solde += personne.montant * personne.sens ;
     });
     return solde;
   }
