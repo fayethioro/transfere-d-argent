@@ -100,24 +100,20 @@ img{
     position: absolute;
     padding: 10px;
     top: 0;
-    left: 250px;
+    left:100% ;
+    width: 300px;
     background-color: #27566B;
     display: none;
     /* width: 100px;
     height: 100px; */
     background-color: #06293D;
-    transition-property: transform;
-    transition-duration: 6s;
-    transform: translateX(0%); 
 }
-
-
 .form-group{
     margin-bottom: 10px;
 }
 
 .from-control{
-    width: 200px;
+    width: 250px;
     padding: 10px;
     text-align: center;
 }
@@ -230,3 +226,21 @@ body
     }
     
 }
+.input-num
+{
+    width:300px;
+    height: auto;
+    background-color: #06293D;
+   position: relative;
+   top:0;
+   left: 0;
+   transform: translate(-10px,-16px );
+   display: none;
+  color: white;
+}
+li
+{
+    list-style:none;
+    cursor: pointer;
+}
+

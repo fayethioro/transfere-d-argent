@@ -43,10 +43,17 @@ const form = document.querySelector('.form');
 const enregistrer = document.querySelector('button');
 const code = document.querySelector('code');
 const erreur = document.querySelector('.erreur');
+const num = document.querySelector('#numero-tel');
+const rechercheInput = document.querySelector('#results-input');
+const inputNum = document.querySelector('.input-num');
+const montant = document.getElementById('mnt');
 
+
+const notif = document.querySelector('.notif');
 const tailleTab=personnes.length;
 let posCourant=randomPos(tailleTab);
 
+// =========================les fonctions=========================================
 function afficherPersonne(personne)
 {
     // const img=document.querySelector('img');
@@ -54,7 +61,8 @@ function afficherPersonne(personne)
     const prenom = document.querySelector('#firstname');
     const telephone = document.querySelector('#phone');
     const email = document.querySelector('#email');
-    const spinner = document.querySelector('.spinner')
+    const spinner = document.querySelector('.spinner');
+    
  
     const photoEl=document.querySelector('.photo');
     const tbody=document.querySelector('tbody');
@@ -73,8 +81,6 @@ function afficherPersonne(personne)
         prenom.innerHTML=personne.prenom;
         telephone.innerHTML=personne.telephone;
         email.innerHTML=personne.email;
-        
-// 
         // afficher les transactions
         tbody.innerHTML="";
         personne.transactions.forEach(trans=>{
@@ -103,7 +109,30 @@ suivant.addEventListener('click',()=>{
     afficherPersonne(personnes[posCourant]);
     // tabpersonne[posCourant].transactions.push(newElement)
 });
+function calculeSolde(personnes) {
+    let solde = 0;
+    personnes.forEach(personne => {
+      solde += personne.montant * personne.sens ;
+    });
+    return solde;
+  }
 
+function recherNumero(tableau, numero)
+{
+   return  tableau.findIndex(table => table.telephone == numero);  
+}
+//  let le = recherNumero(personnes, '785643421');
+// console.log(le);
+
+function afficherNotif(message)
+{
+    notif.innerHTML = message;
+    notif.style.display = 'block';
+    setTimeout(() => {
+        notif.style.display = 'none';
+    }, 3000);
+}
+// =============================================== les evenements ============================
 plus.addEventListener('click', () => {
     form.style =
     `
@@ -116,8 +145,11 @@ plus.addEventListener('click', () => {
     height: 100px; */
     background-color: #06293D;
     display : block; `
-    
+    montant.value ="";
+    num.value = "";
+
 });
+
 enregistrer.addEventListener('click', () =>{
     const table = document.querySelector('.content table');
     newRow = table.insertRow(table.length );
@@ -127,12 +159,9 @@ enregistrer.addEventListener('click', () =>{
     cell3 = newRow.insertCell(2);
     cell4 = newRow.insertCell(3);
   
-    const montant = document.getElementById('mnt');
     const transa = document.getElementById('trans');
     const solde=document.querySelector('#solde');
-    const num = document.querySelector('#numero-tel');
-   
-    
+    // const num = document.querySelector('#numero-tel'); 
     if( montant.value == '')
     {
        erreur.innerHTML =  'il faut entrer une montant'
@@ -142,9 +171,16 @@ enregistrer.addEventListener('click', () =>{
     {
       erreur.innerHTML = 'il faut entrer une montant valide'
     } 
+    else if (+montant.value < 1000)
+    {
+        erreur.innerHTML = 'votre montant doit etre superieur ou égal à 1000'
+    }
     else
     {
+        solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
+
         let sol = solde.innerHTML;
+
         if ( transa.value == "r"  && montant.value  > sol)
             {
                 erreur.innerHTML = 'le montant est supérieur au solde';
@@ -254,29 +290,29 @@ enregistrer.addEventListener('click', () =>{
       }
   });
 
-  function calculeSolde(personnes) {
-    let solde = 0;
-    personnes.forEach(personne => {
-      solde += personne.montant * personne.sens ;
+num.addEventListener('input', (event)=>{
+
+    inputNum.style.display = 'block';
+
+    rechercheInput.innerHTML = '';
+
+    const rechercheValeur = event.target.value;
+
+    const filteredPersonnes = personnes.filter(personne => personne.telephone.startsWith(rechercheValeur)) ;
+
+    filteredPersonnes.forEach(personne => {
+        const li = document.createElement('li');
+      
+        li.textContent = `Nom: ${personne.nom} Téléphone: ${personne.telephone}`;
+       li.addEventListener('click', ()=>{
+        num.value = personne.telephone;
+        inputNum.style.display = 'none';
+
+       });
+       rechercheInput.appendChild(li) 
     });
-    return solde;
-  }
+});
 
-function recherNumero(tableau, numero)
-{
-   return  tableau.findIndex(table => table.telephone == numero);  
-}
-//  let le = recherNumero(personnes, '785643421');
-// console.log(le);
-
-
-const notif = document.querySelector('.notif');
-
-function afficherNotif(message)
-{
-    notif.innerHTML = message;
-    notif.style.display = 'block';
-    setTimeout(() => {
-        notif.style.display = 'none';
-    }, 3000);
-}
+ 
+  
+  
