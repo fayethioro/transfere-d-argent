@@ -205,3 +205,28 @@ tr,td{
     left: 0;
 }
 
+.notif
+{
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    left: 30%;
+    background: red;
+    display: none;
+    animation: 1s anim ease-in infinite;
+}
+body
+{
+    position: relative;
+}
+
+@keyframes anim {
+    to{
+        transform: translateY(100%);
+    }
+    from{
+        transform: translateY(0);
+    }
+    
+}

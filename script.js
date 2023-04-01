@@ -11,7 +11,7 @@ const personnes = [
 
     { id : 2, nom:'diarra', prenom: 'diop', telephone : '785641231', email : 'diop@gmail.com',
      photo :'https://images.unsplash.com/photo-1606814893907-c2e42943c91f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-     transactions: [{numero: '2' , date: '31/07/2022',sens: '1', montant: 3000 ,},
+     transactions: [{numero: '6' , date: '31/07/2022',sens: '1', montant: 3000 ,},
             //   {numero: 3, date: '31/07/2022',sens: 1, montant: 1000,  },
             //   {numero: 4, date: '31/07/2022',sens: -1, montant: 2000 ,},
             //   {numero: 5, date: '31/07/2022',sens: 1, montant: 3000},      
@@ -20,7 +20,7 @@ const personnes = [
 
     { id : 3, nom:'julien', prenom: 'diatta', telephone : '775623231', email : 'julien@gmail.com' , 
     photo :'https://images.unsplash.com/photo-1485875437342-9b39470b3d95?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=873&q=80', 
-    transactions: [{numero: '5' , date: '01/01/2023',sens: '1', montant: 8000 , },
+    transactions: [{numero: '10' , date: '01/01/2023',sens: '1', montant: 8000 , },
             //   {numero: 6, date: '01/01/2023',sens: -1, montant: 2000 , },
             //   {numero: 7, date: '01/01/2023',sens: 1, montant: 1000 , },
       ]
@@ -99,7 +99,7 @@ afficherPersonne(personnes[posCourant]);
 
 suivant.addEventListener('click',()=>{
     posCourant=randomPos(tailleTab);
-    console.log(posCourant);
+    // console.log(posCourant);
     afficherPersonne(personnes[posCourant]);
     // tabpersonne[posCourant].transactions.push(newElement)
 });
@@ -136,6 +136,7 @@ enregistrer.addEventListener('click', () =>{
     if( montant.value == '')
     {
        erreur.innerHTML =  'il faut entrer une montant'
+    //    afficherNotif('il faut entrer une montant')
     }
     else if(+montant.value <= 0)
     {
@@ -198,6 +199,7 @@ enregistrer.addEventListener('click', () =>{
                         if (transa.value == "d")
                         {
                             erreur.innerHTML = 'tu ne peux faire que des retraits';
+
                         }
                         else
                         {
@@ -266,3 +268,15 @@ function recherNumero(tableau, numero)
 }
 //  let le = recherNumero(personnes, '785643421');
 // console.log(le);
+
+
+const notif = document.querySelector('.notif');
+
+function afficherNotif(message)
+{
+    notif.innerHTML = message;
+    notif.style.display = 'block';
+    setTimeout(() => {
+        notif.style.display = 'none';
+    }, 3000);
+}
