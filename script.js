@@ -1,8 +1,8 @@
 const personnes = [
-    { id : 1 ,nom:'thioro', prenom: 'faye' , telephone : '785643421', email : 'faye@gmail.com',
+    { id : 1 ,nom:'thioro', prenom: 'faye' , telephone : '785830419', email : 'faye@gmail.com',
     photo :'https://images.unsplash.com/photo-1602233158242-3ba0ac4d2167?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=436&q=80',
-     transactions: [{numero: 1 , date: '31/01/2022',sens: 1, montant: 3000 , },
-             {numero: 2 , date: '31/01/2022',sens: -1, montant: 1000 ,},
+     transactions: [{numero: '1' , date: '31/01/2022',sens: '1', montant: 3000 , },
+             {numero: '2' , date: '31/01/2022',sens: '-1', montant: 1000 ,},
             //  {numero: 3 , date: '31/01/2022',sens: 1, montant: 100},
             //  {numero: 5 , date: '31/01/2022',sens: 1, montant: 2000},
 
@@ -11,16 +11,16 @@ const personnes = [
 
     { id : 2, nom:'diarra', prenom: 'diop', telephone : '785641231', email : 'diop@gmail.com',
      photo :'https://images.unsplash.com/photo-1606814893907-c2e42943c91f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-     transactions: [{numero: 2 , date: '31/07/2022',sens: 1, montant: 3000 ,},
+     transactions: [{numero: '2' , date: '31/07/2022',sens: '1', montant: 3000 ,},
             //   {numero: 3, date: '31/07/2022',sens: 1, montant: 1000,  },
             //   {numero: 4, date: '31/07/2022',sens: -1, montant: 2000 ,},
             //   {numero: 5, date: '31/07/2022',sens: 1, montant: 3000},      
       ]
       } ,
 
-    { id : 3, nom:'julien', prenom: 'diatta', telephone : '785641231', email : 'julien@gmail.com' , 
+    { id : 3, nom:'julien', prenom: 'diatta', telephone : '775623231', email : 'julien@gmail.com' , 
     photo :'https://images.unsplash.com/photo-1485875437342-9b39470b3d95?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=873&q=80', 
-    transactions: [{numero: 5 , date: '01/01/2023',sens: 1, montant: 8000 , },
+    transactions: [{numero: '5' , date: '01/01/2023',sens: '1', montant: 8000 , },
             //   {numero: 6, date: '01/01/2023',sens: -1, montant: 2000 , },
             //   {numero: 7, date: '01/01/2023',sens: 1, montant: 1000 , },
       ]
@@ -28,11 +28,11 @@ const personnes = [
 
     { id : 4, nom:'babacar', prenom: 'ndaye', telephone : '767541211', email : 'ndiaye@gmail.com',
     photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80,' ,
-     transactions: [{numero: 7 , date: '12/09/2022',sens: 1, montant: 100 ,}] },
+     transactions: [{numero: '7' , date: '12/09/2022',sens: '1', montant: 100 ,}] },
 
     { id : 5, nom:'moustapha', prenom: 'dione', telephone : '771119878', email : 'mousdione@gmail.com,',
     photo: 'https://images.unsplash.com/photo-1508341591423-4347099e1f19?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-      transactions: [{numero: 6 , date: '31/01/2023',sens:1, montant: 1000 , },
+      transactions: [{numero: '6' , date: '31/01/2023',sens: '1', montant: 1000 , },
         ]  
      },     
 ];
@@ -42,6 +42,7 @@ const plus = document.querySelector('.btn-detail');
 const form = document.querySelector('.form');
 const enregistrer = document.querySelector('button');
 const code = document.querySelector('code');
+const erreur = document.querySelector('.erreur');
 
 const tailleTab=personnes.length;
 let posCourant=randomPos(tailleTab);
@@ -64,9 +65,9 @@ function afficherPersonne(personne)
     photoEl.innerHTML=photo.outerHTML;
     //charger les spinners
     photo.onload=()=>{
-        spinner.style.display="none";
         // desactiver le spinner
-        // alert('image chargée')
+        spinner.style.display="none";
+      
         //afficher les informations du personne
         nom.innerHTML=personne.nom;
         prenom.innerHTML=personne.prenom;
@@ -80,7 +81,7 @@ function afficherPersonne(personne)
             tbody.innerHTML+=` <tr>
             <td>${trans.numero}</td>
             <td>${trans.date}</td>
-            <td>${trans.sens=='1'?'envoie':'retrait'}</td>
+            <td>${trans.sens=='1'?'depot':'retrait'}</td>
             <td>${trans.montant}</td>
         </tr>`
         
@@ -115,11 +116,8 @@ plus.addEventListener('click', () => {
     height: 100px; */
     background-color: #06293D;
     display : block; `
+    
 });
-const erreur = document.querySelector('.erreur');
-
-
-
 enregistrer.addEventListener('click', () =>{
     const table = document.querySelector('.content table');
     newRow = table.insertRow(table.length );
@@ -132,6 +130,7 @@ enregistrer.addEventListener('click', () =>{
     const montant = document.getElementById('mnt');
     const transa = document.getElementById('trans');
     const solde=document.querySelector('#solde');
+    const num = document.querySelector('#numero-tel');
    
     
     if( montant.value == '')
@@ -149,38 +148,106 @@ enregistrer.addEventListener('click', () =>{
             {
                 erreur.innerHTML = 'le montant est supérieur au solde';
             }
-        else if (transa.value == "d" && montant.value > 15000)
+        else if (transa.value == "d" && montant.value > 2000000)
             {
                 erreur.innerHTML = 'Vous ne pouvez pas envoyer cette somme';
             }
         else
             {
-                if(transa.value == "d")
+                if(num.value == "" )
                 {
-                    cell3.innerHTML = 1;
+                    erreur.innerHTML = 'entrez un numero'; 
                 }
-                if(transa.value == "r")
+                else
                 {
-                    cell3.innerHTML = -1;
-                    // console.log(cell4.innerHTML);
+                    erreur.innerHTML = '';
+                    let indice = recherNumero(personnes , num.value)
+                    if(indice == -1)
+                    erreur.innerHTML = "le numero n'existe pas ";
+                    else if( indice == posCourant )
+                    {
+                            if(transa.value == "d")
+                            {
+                                cell3.innerHTML = 1;
+                            }
+                            if(transa.value == "r")
+                            {
+                                cell3.innerHTML = -1;
+                            }
+                            erreur.innerHTML = '';
+                            cell1.innerHTML=personnes[posCourant].transactions.length + 1 ; 
+                            cell2.innerHTML = new Date().toLocaleDateString();
+                            cell4.innerHTML = montant.value;
+                            let  mont = cell4.innerHTML;
+                            let  num =  cell1.innerHTML;
+                            let  date = cell2.innerHTML;
+                            let  sens = cell3.innerHTML;
+                            let objet = {
+                                        numero: num, date: date,  sens: sens, montant: mont 
+                                    };
+                            personnes[posCourant].transactions.push(objet); 
+                            console.log(personnes[posCourant]);
+
+                            code.innerHTML=personnes[posCourant].transactions.length;
+                            solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
+                            afficherPersonne(personnes[posCourant]);
+                            form.style.display = 'none';
+                    }
+                    else
+                    {
+                        if (transa.value == "d")
+                        {
+                            erreur.innerHTML = 'tu ne peux faire que des retraits';
+                        }
+                        else
+                        {
+                            if(transa.value == "d")
+                            {
+                                cell3.innerHTML = 1;
+                            }
+                            if(transa.value == "r")
+                            {
+                                cell3.innerHTML = -1;
+                                // console.log(cell4.innerHTML);
+                            }
+                            erreur.innerHTML = '';
+                            cell1.innerHTML=personnes[posCourant].transactions.length + 1 ; 
+                            cell2.innerHTML = new Date().toLocaleDateString();
+                            cell4.innerHTML = montant.value;
+                            let  mont = cell4.innerHTML;
+                            let  num =  cell1.innerHTML;
+                            let  date = cell2.innerHTML;
+                            let  sens = cell3.innerHTML;
+                            // sens.innerHTML = 'envoie'
+                            let objet = {
+                                        numero: num, date: date,  sens: sens, montant: mont 
+                                        }
+                            personnes[posCourant].transactions.push(objet);
+                            
+                            code.innerHTML=personnes[posCourant].transactions.length;
+                            solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
+                            afficherPersonne(personnes[posCourant]);
+                            console.log(objet);
+                            console.log(personnes[posCourant]);
+                            
+                            let objet1 = {...objet}
+                            objet1.sens='1';
+                            
+                            let taille = personnes[indice].transactions.length - 1;
+
+                            objet1.num= personnes[indice].transactions[taille].numero + 1 ;
+                            console.log(objet.num);
+                            
+                            personnes[indice].transactions.push(objet1); 
+                            // console.log(objet1);
+                            console.log(personnes[indice]);
+                           
+                            form.style.display = 'none';
+                        }
+                    }
                 }
-                erreur.innerHTML = '';
-                cell1.innerHTML=personnes[posCourant].transactions.length + 1 ; 
-                cell2.innerHTML = new Date().toLocaleDateString();
-                cell4.innerHTML = montant.value;
-                let  mont = cell4.innerHTML;
-                let  num =  cell1.innerHTML;
-                let  date = cell2.innerHTML;
-                let  sens = cell3.innerHTML;
-                let objet = {
-                            numero: num, date: date,  sens: sens, montant: mont 
-                        };
-                personnes[posCourant].transactions.push(objet); 
-                console.log(personnes[posCourant]);
-                code.innerHTML=personnes[posCourant].transactions.length;
-                solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
-                afficherPersonne(personnes[posCourant]);
-                form.style.display = 'none';
+                    
+              
             }
       }
   });
@@ -192,3 +259,10 @@ enregistrer.addEventListener('click', () =>{
     });
     return solde;
   }
+
+function recherNumero(tableau, numero)
+{
+   return  tableau.findIndex(table => table.telephone == numero);  
+}
+//  let le = recherNumero(personnes, '785643421');
+// console.log(le);

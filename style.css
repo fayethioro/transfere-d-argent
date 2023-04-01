@@ -100,13 +100,17 @@ img{
     position: absolute;
     padding: 10px;
     top: 0;
-    left: 100%;
+    left: 250px;
     background-color: #27566B;
     display: none;
     /* width: 100px;
     height: 100px; */
     background-color: #06293D;
+    transition-property: transform;
+    transition-duration: 6s;
+    transform: translateX(0%); 
 }
+
 
 .form-group{
     margin-bottom: 10px;
