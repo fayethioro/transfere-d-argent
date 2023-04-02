@@ -265,7 +265,7 @@ enregistrer.addEventListener('click', () =>{
                             code.innerHTML=personnes[posCourant].transactions.length;
                             solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
                             afficherPersonne(personnes[posCourant]);
-                            console.log(objet);
+                            // console.log(objet);
                             console.log(personnes[posCourant]);
                             
                             let objet1 = {...objet}
@@ -303,8 +303,8 @@ num.addEventListener('input', (event)=>{
     filteredPersonnes.forEach(personne => {
         const li = document.createElement('li');
       
-        li.textContent = `Nom: ${personne.nom} Téléphone: ${personne.telephone}`;
-       li.addEventListener('click', ()=>{
+        li.textContent = `${personne.nom} ${personne.prenom}: ${personne.telephone}`;
+        li.addEventListener('click', ()=>{
         num.value = personne.telephone;
         inputNum.style.display = 'none';
 
@@ -313,6 +313,43 @@ num.addEventListener('input', (event)=>{
     });
 });
 
- 
+const recherche = document.querySelector('#search');
+const resultatsRecherche = document.querySelector('#results-search');
+const inputRecherche = document.querySelector('.input-search');
+
+
   
-  
+ recherche.addEventListener('input', ()=>{
+
+    // Effacer les anciens résultats
+    inputRecherche.style.display = 'block';
+
+    resultatsRecherche.innerHTML = '';
+
+    // Récupérer la valeur saisie par l'utilisateur
+    const valeurRecherche = recherche.value.trim().toLowerCase();
+
+     // Rechercher tous les personnes dont le nom ou le numéro de téléphone commence par les 3 premiers caractères de la recherche
+     const resultats = personnes.filter(personne => 
+        personne.nom.toLowerCase().startsWith(valeurRecherche) ||
+        personne.telephone.startsWith(valeurRecherche)||
+        personne.prenom.toLowerCase().startsWith(valeurRecherche)
+      );
+
+      resultats.forEach(personne => {
+        const element = document.createElement("li");
+        element.textContent = `${personne.nom} ${personne.prenom}: ${personne.telephone}`;
+        element.addEventListener('click', () => {
+            let rech = recherNumero(personnes , personne.telephone);
+    
+            if(rech != -1)
+                afficherPersonne(personnes[rech]);
+            
+                recherche.value = '';
+                inputRecherche.style.display = 'none';
+    
+            })
+        resultatsRecherche.appendChild(element);
+      });
+
+ }) 
