@@ -47,6 +47,12 @@ const num = document.querySelector('#numero-tel');
 const rechercheInput = document.querySelector('#results-input');
 const inputNum = document.querySelector('.input-num');
 const montant = document.getElementById('mnt');
+const recherche = document.querySelector('#search');
+const resultatsRecherche = document.querySelector('#results-search');
+const inputRecherche = document.querySelector('.input-search');
+const fermeForm = document.querySelector('.fermer-form');
+const fermeRecherche = document.querySelector('.fermer-recherche');
+
 
 
 const notif = document.querySelector('.notif');
@@ -148,6 +154,11 @@ plus.addEventListener('click', () => {
     montant.value ="";
     num.value = "";
 
+});
+
+fermeForm.addEventListener('click', ()=>{
+    
+    form.style.display ='none'
 });
 
 enregistrer.addEventListener('click', () =>{
@@ -312,13 +323,6 @@ num.addEventListener('input', (event)=>{
        rechercheInput.appendChild(li) 
     });
 });
-
-const recherche = document.querySelector('#search');
-const resultatsRecherche = document.querySelector('#results-search');
-const inputRecherche = document.querySelector('.input-search');
-
-
-  
  recherche.addEventListener('input', ()=>{
 
     // Effacer les anciens résultats
@@ -351,5 +355,8 @@ const inputRecherche = document.querySelector('.input-search');
             })
         resultatsRecherche.appendChild(element);
       });
-
- }) 
+ });
+fermeRecherche.addEventListener('click', ()=>{
+    recherche.value = '';
+    inputRecherche.style.display = 'none';
+});

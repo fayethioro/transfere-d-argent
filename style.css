@@ -43,7 +43,8 @@ body{
 
 
 /* ------------------------ */
-.card{
+.card
+{
     height: 60vh;
     /* width: 50%; */
     width: 40%;
@@ -103,7 +104,7 @@ img{
     left:100% ;
     width: 300px;
     background-color: #27566B;
-    /* display: none; */
+    display: none;
     /* width: 100px;
     height: 100px; */
     background-color: #06293D;
@@ -196,21 +197,24 @@ tr,td{
     height: 100%;
     background-color: #06293D; 
     position: absolute;
-    /* display: none; */
+    display: none;
     top: 0;
     left: 0;
 }
 
 .notif
 {
-    width: 100px;
+    width: 50%;
     height: 100px;
     position: absolute;
     top: 0;
-    left: 30%;
-    background: red;
+    left: 0;
+    background: #06293D;
     display: none;
     animation: 1s anim ease-in infinite;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.4em;
 }
 body
 {
@@ -218,23 +222,44 @@ body
 }
 
 @keyframes anim {
-    to{
-        transform: translateY(100%);
+    0%{
+        transform: translateX(100%);
     }
-    from{
-        transform: translateY(0);
+    20%{
+        transform: translateX(50%);
+    }
+    30%{
+        transform: translateX(49%);
+    }
+    40%{
+        transform: translateX(48%);
+    }
+    60%{
+        transform: translateX(45%);
+    }
+    70%{
+        transform: translateX(40%);
+    }
+    80%{
+        transform: translateX(30%);
+    }
+    90%{
+        transform: translateX(20%);
+    }
+    100%{
+        transform: translateX(0);
     }
     
 }
 .input-num
 {
-    width:300px;
+    width:280px;
     height: auto;
-    background-color: #06293D;
+    background-color: #27566B;
    position: relative;
    top:0;
    left: 0;
-   transform: translate(-10px,-16px );
+   transform: translate(0,-16px );
    display: none;
   color: white;
 }
@@ -242,6 +267,10 @@ li
 {
     list-style:none;
     cursor: pointer;
+}
+.input-num li:hover
+{
+    background :#06293D;
 }
 .recherche
 {
@@ -272,16 +301,100 @@ li
 .input-search
 {
     width:50%;
-    height: 300px;
+    height: auto;
     /* background-color: #06293D; */
+    padding-top: 20px;
     background-color: #06293D;
     position: absolute;
     top:0;
     left: 0;
     transform: translate(-100%, 0);
-    /* display: none; */
+    display: none;
     border: solid 1px white;
     color: white;
     font-family: 'Courier New', Courier, monospace;
     font-size: 20px;
 }
+.fermer-form, .fermer-recherche
+{
+   width: 30px;
+   height: 30px;
+   background: transparent;
+   position: absolute;
+   top: 0;
+   right: 0;
+   cursor: pointer;
+   font-weight: 900;
+   font-size: 1.2em;
+   border: solid 1px #27566B;
+}
+.fermer-form:hover, .fermer-recherche:hover 
+{
+    background: red;
+    border-radius: 10px;
+}
+.add-user
+{
+    width: 35px;
+    height: 35px;
+    background-color: white;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    border-radius: 20px;
+    font-size: 1.2em;
+    font-weight: 900;
+    color: #06293D;
+    cursor: pointer;
+}
+.add-user:hover, button:hover
+{
+    background: #06293D;
+    color: white;
+}
+
+.modal-add-user
+{
+    width: 100%;
+    height: 450px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* background: #00d4ff; */
+}
+.modal-header, .modal-footer
+{
+    height: 15%;
+    gap: 20px;
+    background: linear-gradient(90deg, #1a1919f7 3%, #1609796b 100%, #00d4ff 100%);
+}
+.modal-body
+{
+    height: 70%;
+    background: linear-gradient(90deg, #0d0b0bf7 3%, #304b5176 100%,  #00d4ff 100%);
+}
+button
+{
+    width: 140px ;
+    height: 40px;
+    border-radius: 20px;
+   font-size: 1.4em;
+}
+.form-user
+{
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.form-user label
+{
+    font-size: 1.4em;
+    font-family: 'Courier New', Courier, monospace;
+}
+.form-user input
+{
+    width: 50%;
+    outline: none;
+}
+

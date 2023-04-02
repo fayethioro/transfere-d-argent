@@ -91,25 +91,60 @@
                     
                 </div>
                 <button type="button">Enregistrer</button>
-               
+                <div class="fermer-form dflex jcc aic">X</div>
             </div>
 
             <div class="recherche dflex  jcc aic fdc">
                 <input type="search" name="search" id="search" placeholder="recherche">
                 <div class="input-search">
+                    <div class="fermer-recherche dflex jcc aic">X</div>
                     <ul id="results-search"></ul>
                 </div>
+                <div class="add-user dflex jcc aic">+</div>
             </div>
-
-            <div class="notif"></div>
-            
+            <div class="modal-add-user">
+                <div class="modal-header dflex jcc aicr">
+                   <h2> Ajouter un utilisateur</h2>
+                </div>
+                <div class="modal-body dflex jcsb fdc">
+                    <div class="form-user dflex jcsb">
+                        <label for="mnt">Nom:</label>
+                        <input type="text" id="add-nom" placeholder="Nom..." >
+                    </div>
+                    <div class="form-user dflex jcsb">
+                        <label for="mnt">Prenom:</label>
+                        <input type="text" id="add-prenom" placeholder="Prenom..." >
+                    </div>
+                    <div class="form-user dflex jcsb">
+                        <label for="mnt">Téléphone:</label>
+                        <input type="number" id="add-tel" placeholder="Télephone..." >
+                    </div>
+                    <div class="form-user dflex jcsb">
+                        <label for="mnt">Email:</label>
+                        <input type="text" id="nom" placeholder="Email..." >
+                    </div>
+                    <div class="form-user dflex jcsb">
+                        <label for="mnt">Profil:</label>
+                        <input type="text" id="add-profil" placeholder="Coller le lien ici..." >
+                    </div>
+                    <div class="form-user dflex jcsb">
+                        <label for="mnt">Solde:</label>
+                        <input type="text" id="add-profil" placeholder="Solde actuel..." >
+                    </div>
+                </div>
+                <div class="modal-footer dflex jcc aic">
+                    <button type="submit" id="ajouter">Ajouter</button>
+                    <button type="reset" annule>Annuler</button>
+                </div> 
+            </div>            
         </div>
         <div class="navigation">
             <button  type="button" class="next"> suivant </button>
         </div>
     </div>
 
-
+    <div class="notif"></div>
+    
 
     <script src="script.js"></script>
 </body>
