@@ -130,14 +130,7 @@ function recherNumero(tableau, numero)
 //  let le = recherNumero(personnes, '785643421');
 // console.log(le);
 
-function afficherNotif(message)
-{
-    notif.innerHTML = message;
-    notif.style.display = 'block';
-    setTimeout(() => {
-        notif.style.display = 'none';
-    }, 3000);
-}
+
 // =============================================== les evenements ============================
 plus.addEventListener('click', () => {
     form.style =
@@ -192,11 +185,11 @@ enregistrer.addEventListener('click', () =>{
 
         let sol = solde.innerHTML;
 
-        if ( transa.value == "r"  && montant.value  > sol)
+        if ( transa.value == "r" || montant.value  > sol)
             {
                 erreur.innerHTML = 'le montant est supérieur au solde';
             }
-        else if (transa.value == "d" && montant.value > 2000000)
+        else if (transa.value == "d"|| montant.value > 2000000)
             {
                 erreur.innerHTML = 'Vous ne pouvez pas envoyer cette somme';
             }
@@ -359,4 +352,84 @@ num.addEventListener('input', (event)=>{
 fermeRecherche.addEventListener('click', ()=>{
     recherche.value = '';
     inputRecherche.style.display = 'none';
+});
+const ajouter = document.querySelector('#ajouter');
+const annuler = document.querySelector('#annuler')
+const addUser = document.querySelector('.add-user');
+const modal = document.querySelector('.modal-add-user');
+const addNom =document.querySelector('#add-nom');
+const addPrenom =document.querySelector('#add-prenom');
+const addTelephone =document.querySelector('#add-tel');
+const addEmail =document.querySelector('#add-email');
+const addprofil =document.querySelector('#add-profil');
+
+addUser.addEventListener('click', ()=>{
+    modal.style.display = 'block'; 
+    addNom.value='' ;
+    addPrenom.value='' ;
+    addTelephone.value='' ;
+    addEmail.value='' ;
+    addprofil.value='' ;
+    addSolde.value='' ;
+} );
+annuler.addEventListener('click',()=>{
+    modal.style.display = 'none';
+} );
+
+function afficherNotif(message)
+{
+    // notif.style.display = 'none';
+    notif.innerHTML = message;
+    notif.style.display = 'block';
+    setTimeout(() => {
+        notif.style.display = 'none';
+    }, 3000);
+}
+
+ajouter.addEventListener('click', ()=>{
+    const nom = addNom.value;
+    const prenom = addPrenom.value;
+    const telephone = addTelephone.value;
+    const email = addEmail.value;
+    const profil = addprofil.value;
+    const solde = 0;
+   let  existe = recherNumero(personnes , telephone)
+   if (nom == ""|| prenom == ""|| telephone == ""|| email == "" 
+        || profil=="") 
+   {
+     afficherNotif('Il faut remplir tous les champs');
+   }
+   else if (telephone.length != 9)
+   {
+    afficherNotif("La longueur d'un numero est de 9 chiffres  ");
+   }
+   else if (email.indexOf('@gmail.com') == -1)
+   {
+    afficherNotif("L'adresse email n'est pas valide , il doit contenir @gmail.com");
+   }
+   else if (existe!= -1)
+   {
+     afficherNotif("Cet numéro de téléphone existe déjà");
+   }
+   else
+   {
+        const ajoutPersonne = {
+            id :personnes[personnes.length - 1].id + 1,
+            nom: nom,
+            prenom: prenom,
+            telephone: telephone,
+            email: email,
+            photo: profil,
+            solde: solde,
+            transactions: [
+                {numero: '...' , date: '...',sens: '....', montant: '...' ,}
+        ]
+        }
+        personnes.push(ajoutPersonne);
+        let indice = recherNumero(personnes , telephone);
+        if(indice != -1)
+        afficherPersonne(personnes[indice]);
+         console.log(personnes);
+        modal.style.display = 'none';
+   }
 });

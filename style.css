@@ -205,7 +205,7 @@ tr,td{
 .notif
 {
     width: 50%;
-    height: 100px;
+    height: 50px;
     position: absolute;
     top: 0;
     left: 0;
@@ -214,7 +214,8 @@ tr,td{
     animation: 1s anim ease-in infinite;
     color: white;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 1.4em;
+    font-size: 1.6em;
+    font-weight: bold;
 }
 body
 {
@@ -360,6 +361,7 @@ li
     position: absolute;
     top: 0;
     left: 0;
+    display: none;
     /* background: #00d4ff; */
 }
 .modal-header, .modal-footer
@@ -389,12 +391,14 @@ button
 }
 .form-user label
 {
-    font-size: 1.4em;
+    font-size: 1.5em;
     font-family: 'Courier New', Courier, monospace;
 }
 .form-user input
 {
     width: 50%;
     outline: none;
+    height: 30px;
+    font-size: 1.2em;
 }
 
