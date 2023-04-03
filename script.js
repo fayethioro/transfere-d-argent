@@ -76,6 +76,7 @@ function afficherPersonne(personne)
     let photo=new Image();
     photo.src =personne.photo;
     // console.dir(photo);
+    // spinner.style.display="block";
     photoEl.innerHTML=photo.outerHTML;
     //charger les spinners
     photo.onload=()=>{
@@ -126,9 +127,6 @@ function recherNumero(tableau, numero)
 {
    return  tableau.findIndex(table => table.telephone == numero);  
 }
-//  let le = recherNumero(personnes, '785643421');
-// console.log(le);
-//afficher une notification
 function afficherNotif(message)
 {
     // notif.style.display = 'none';
@@ -136,20 +134,21 @@ function afficherNotif(message)
     notif.style.display = 'block';
     setTimeout(() => {
         notif.style.display = 'none';
-    }, 3000);
+    }, 5000);
 }
 // si la saisie est un alphanumerique
-function lettersNumbersCheck(name)
+function EmailValide(inputText)
 {
-   let regEx = /^[0-9a-zA-Z-@]+$/;
-   if(name.match(regEx))
-     {
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if(inputText.match(mailformat))
+    {
       return true;
-     }
-     {
-     return false;
-     }
-}    
+    }
+    else
+    {
+      return false;
+    }  
+}  
 
 
 // =============================================== les evenements ============================
@@ -262,7 +261,6 @@ enregistrer.addEventListener('click', () =>{
                         if (transa.value == "d")
                         {
                             erreur.innerHTML = 'tu ne peux faire que des retraits';
-
                         }
                         else
                         {
@@ -273,7 +271,6 @@ enregistrer.addEventListener('click', () =>{
                             if(transa.value == "r")
                             {
                                 cell3.innerHTML = -1;
-                                // console.log(cell4.innerHTML);
                             }
                             erreur.innerHTML = '';
                             cell1.innerHTML=personnes[posCourant].transactions.length + 1 ; 
@@ -396,14 +393,10 @@ addUser.addEventListener('click', ()=>{
     addTelephone.value='' ;
     addEmail.value='' ;
     addprofil.value='' ;
-    addSolde.value='' ;
 } );
 annuler.addEventListener('click',()=>{
     modal.style.display = 'none';
 } );
-
-
-
 ajouter.addEventListener('click', ()=>{
     const nom = addNom.value;
     const prenom = addPrenom.value;
@@ -411,7 +404,7 @@ ajouter.addEventListener('click', ()=>{
     const email = addEmail.value;
     const profil = addprofil.value;
     const solde = 0;
-    // let isvalid = lettersNumbersCheck(email);
+    let isvalid =  EmailValide(email);
    let  existe = recherNumero(personnes , telephone)
    if (nom == ""|| prenom == ""|| telephone == ""|| email == "" 
         || profil=="") 
@@ -422,14 +415,10 @@ ajouter.addEventListener('click', ()=>{
    {
     afficherNotif("La longueur d'un numero est de 9 chiffres  ");
    }
-   else if (email.indexOf('@gmail.com') == -1 )
+   else if (!isvalid)
    {
-    afficherNotif("L'adresse email n'est pas valide , il doit contenir @gmail.com");
+    afficherNotif("Veuillez saisir uniquement des lettres et des chiffres et L'adresse email n'est pas valide , il doit contenir @gmail.com .");
    }
-//    else if (!isvalid)
-//    {
-//     afficherNotif("Veuillez saisir uniquement des lettres et des chiffres .");
-//    }
    else if (existe!= -1)
    {
      afficherNotif("Cet numéro de téléphone existe déjà");

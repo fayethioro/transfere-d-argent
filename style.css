@@ -198,7 +198,7 @@ tr,td{
     height: 100%;
     background-color: #06293D; 
     position: absolute;
-    display: none;
+    /* display: none; */
     top: 0;
     left: 0;
 }
@@ -217,6 +217,9 @@ tr,td{
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.6em;
     font-weight: bold;
+    /* transform: translateX(50%);
+    transition: transform 5000ms linear */
+    animation: anim 5s linear infinite ;
 }
 body
 {
@@ -231,22 +234,22 @@ body
         transform: translateX(50%);
     }
     30%{
-        transform: translateX(49%);
+        transform: translateX(50%);
     }
     40%{
-        transform: translateX(48%);
+        transform: translateX(50%);
     }
     60%{
-        transform: translateX(45%);
+        transform: translateX(50%);
     }
     70%{
-        transform: translateX(40%);
+        transform: translateX(50%);
     }
     80%{
-        transform: translateX(30%);
+        transform: translateX(50%);
     }
     90%{
-        transform: translateX(20%);
+        transform: translateX(50%);
     }
     100%{
         transform: translateX(0);
