@@ -30,7 +30,7 @@ const personnes = [
     photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80,' ,
      transactions: [{numero: '7' , date: '12/09/2022',sens: '1', montant: 100 ,}] },
 
-    { id : 5, nom:'moustapha', prenom: 'dione', telephone : '771119878', email : 'mousdione@gmail.com,',
+    { id : 5, nom:'moustapha', prenom: 'dione', telephone : '771119878', email : 'mousdione@gmail.com',
     photo: 'https://images.unsplash.com/photo-1508341591423-4347099e1f19?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
       transactions: [{numero: '6' , date: '31/01/2023',sens: '1', montant: 1000 , },
         ]  
@@ -76,6 +76,7 @@ function afficherPersonne(personne)
     let photo=new Image();
     photo.src =personne.photo;
     // console.dir(photo);
+    // spinner.style.display="block";
     photoEl.innerHTML=photo.outerHTML;
     //charger les spinners
     photo.onload=()=>{
@@ -93,10 +94,9 @@ function afficherPersonne(personne)
             tbody.innerHTML+=` <tr>
             <td>${trans.numero}</td>
             <td>${trans.date}</td>
-            <td>${trans.sens=='1'?'depot':'retrait'}</td>
+            <td>${trans.sens=='1'?'depot':'retrait' }</td>
             <td>${trans.montant}</td>
-        </tr>`
-        
+        </tr>` 
         });
         code.innerHTML=personne.transactions.length;
         solde.innerHTML = calculeSolde(personne.transactions);
@@ -127,8 +127,28 @@ function recherNumero(tableau, numero)
 {
    return  tableau.findIndex(table => table.telephone == numero);  
 }
-//  let le = recherNumero(personnes, '785643421');
-// console.log(le);
+function afficherNotif(message)
+{
+    // notif.style.display = 'none';
+    notif.innerHTML = message;
+    notif.style.display = 'block';
+    setTimeout(() => {
+        notif.style.display = 'none';
+    }, 5000);
+}
+// si la saisie est un alphanumerique
+function EmailValide(inputText)
+{
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if(inputText.match(mailformat))
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }  
+}  
 
 
 // =============================================== les evenements ============================
@@ -146,7 +166,7 @@ plus.addEventListener('click', () => {
     display : block; `
     montant.value ="";
     num.value = "";
-
+    erreur.innerHTML='';
 });
 
 fermeForm.addEventListener('click', ()=>{
@@ -162,7 +182,8 @@ enregistrer.addEventListener('click', () =>{
     cell2 = newRow.insertCell(1);
     cell3 = newRow.insertCell(2);
     cell4 = newRow.insertCell(3);
-  
+
+
     const transa = document.getElementById('trans');
     const solde=document.querySelector('#solde');
     // const num = document.querySelector('#numero-tel'); 
@@ -175,9 +196,9 @@ enregistrer.addEventListener('click', () =>{
     {
       erreur.innerHTML = 'il faut entrer une montant valide'
     } 
-    else if (+montant.value < 1000)
+    else if (+montant.value < 500)
     {
-        erreur.innerHTML = 'votre montant doit etre superieur ou égal à 1000'
+        erreur.innerHTML = 'votre montant doit etre superieur ou égal à 500'
     }
     else
     {
@@ -185,11 +206,11 @@ enregistrer.addEventListener('click', () =>{
 
         let sol = solde.innerHTML;
 
-        if ( transa.value == "r" || montant.value  > sol)
+        if ( transa.value == "r" && +montant.value  > sol)
             {
                 erreur.innerHTML = 'le montant est supérieur au solde';
             }
-        else if (transa.value == "d"|| montant.value > 2000000)
+        else if (transa.value == "d" && +montant.value > 2000000)
             {
                 erreur.innerHTML = 'Vous ne pouvez pas envoyer cette somme';
             }
@@ -197,17 +218,8 @@ enregistrer.addEventListener('click', () =>{
             {
                 if(num.value == "" )
                 {
-                    erreur.innerHTML = 'entrez un numero'; 
-                }
-                else
-                {
-                    erreur.innerHTML = '';
-                    let indice = recherNumero(personnes , num.value)
-                    if(indice == -1)
-                    erreur.innerHTML = "le numero n'existe pas ";
-                    else if( indice == posCourant )
-                    {
-                            if(transa.value == "d")
+                    // erreur.innerHTML = 'entrez un numero';
+                    if(transa.value == "d")
                             {
                                 cell3.innerHTML = 1;
                             }
@@ -232,14 +244,23 @@ enregistrer.addEventListener('click', () =>{
                             code.innerHTML=personnes[posCourant].transactions.length;
                             solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
                             afficherPersonne(personnes[posCourant]);
-                            form.style.display = 'none';
+                            form.style.display = 'none'; 
+                }
+                else
+                {
+                    erreur.innerHTML = '';
+                    let indice = recherNumero(personnes , num.value)
+                    if(indice == -1)
+                    erreur.innerHTML = "le numero n'existe pas ";
+                    else if( indice == posCourant )
+                    {
+                    erreur.innerHTML = "vous ne pouvez pas faire un retrait sur vous-meme ";
                     }
                     else
                     {
                         if (transa.value == "d")
                         {
                             erreur.innerHTML = 'tu ne peux faire que des retraits';
-
                         }
                         else
                         {
@@ -250,7 +271,6 @@ enregistrer.addEventListener('click', () =>{
                             if(transa.value == "r")
                             {
                                 cell3.innerHTML = -1;
-                                // console.log(cell4.innerHTML);
                             }
                             erreur.innerHTML = '';
                             cell1.innerHTML=personnes[posCourant].transactions.length + 1 ; 
@@ -287,35 +307,38 @@ enregistrer.addEventListener('click', () =>{
                             form.style.display = 'none';
                         }
                     }
-                }
-                    
-              
+                } 
             }
       }
   });
 
-num.addEventListener('input', (event)=>{
 
-    inputNum.style.display = 'block';
+    num.addEventListener('input', (event)=>{
 
-    rechercheInput.innerHTML = '';
-
-    const rechercheValeur = event.target.value;
-
-    const filteredPersonnes = personnes.filter(personne => personne.telephone.startsWith(rechercheValeur)) ;
-
-    filteredPersonnes.forEach(personne => {
-        const li = document.createElement('li');
-      
-        li.textContent = `${personne.nom} ${personne.prenom}: ${personne.telephone}`;
-        li.addEventListener('click', ()=>{
-        num.value = personne.telephone;
-        inputNum.style.display = 'none';
-
-       });
-       rechercheInput.appendChild(li) 
+        inputNum.style.display = 'block';
+    
+        rechercheInput.innerHTML = '';
+     
+        const rechercheValeur = event.target.value;
+        // console.log(rechercheValeur.length);
+        if (rechercheValeur.length >= 2)  
+        {
+            const filteredPersonnes = personnes.filter(personne => personne.telephone.startsWith(rechercheValeur)) ;
+    
+        filteredPersonnes.forEach(personne => {
+            const li = document.createElement('li');
+          
+            li.textContent = `${personne.nom} ${personne.prenom}: ${personne.telephone}`;
+            li.addEventListener('click', ()=>{
+            num.value = personne.telephone;
+            inputNum.style.display = 'none';
+    
+           });
+           rechercheInput.appendChild(li) 
+        });
+        }
     });
-});
+
  recherche.addEventListener('input', ()=>{
 
     // Effacer les anciens résultats
@@ -370,22 +393,10 @@ addUser.addEventListener('click', ()=>{
     addTelephone.value='' ;
     addEmail.value='' ;
     addprofil.value='' ;
-    addSolde.value='' ;
 } );
 annuler.addEventListener('click',()=>{
     modal.style.display = 'none';
 } );
-
-function afficherNotif(message)
-{
-    // notif.style.display = 'none';
-    notif.innerHTML = message;
-    notif.style.display = 'block';
-    setTimeout(() => {
-        notif.style.display = 'none';
-    }, 3000);
-}
-
 ajouter.addEventListener('click', ()=>{
     const nom = addNom.value;
     const prenom = addPrenom.value;
@@ -393,6 +404,7 @@ ajouter.addEventListener('click', ()=>{
     const email = addEmail.value;
     const profil = addprofil.value;
     const solde = 0;
+    let isvalid =  EmailValide(email);
    let  existe = recherNumero(personnes , telephone)
    if (nom == ""|| prenom == ""|| telephone == ""|| email == "" 
         || profil=="") 
@@ -403,9 +415,9 @@ ajouter.addEventListener('click', ()=>{
    {
     afficherNotif("La longueur d'un numero est de 9 chiffres  ");
    }
-   else if (email.indexOf('@gmail.com') == -1)
+   else if (!isvalid)
    {
-    afficherNotif("L'adresse email n'est pas valide , il doit contenir @gmail.com");
+    afficherNotif("Veuillez saisir uniquement des lettres et des chiffres et L'adresse email n'est pas valide , il doit contenir @gmail.com .");
    }
    else if (existe!= -1)
    {
@@ -422,7 +434,7 @@ ajouter.addEventListener('click', ()=>{
             photo: profil,
             solde: solde,
             transactions: [
-                {numero: '...' , date: '...',sens: '....', montant: '...' ,}
+                {numero: '1' , date: new Date().toLocaleDateString() ,sens: '1', montant: '0' ,}
         ]
         }
         personnes.push(ajoutPersonne);
