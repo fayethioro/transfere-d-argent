@@ -128,6 +128,7 @@ function getTransactionType(sens)
      else 
        return 'transfere annuler'
 }
+// printpersonne(tabpersonne[posCourant]);
 
 afficherPersonne(personnes[posCourant]);
 
@@ -190,6 +191,7 @@ plus.addEventListener('click', () => {
 });
 
 fermeForm.addEventListener('click', ()=>{
+    
     form.style.display ='none'
 });
 
@@ -220,9 +222,9 @@ enregistrer.addEventListener('click', () =>{
             {
                 erreur.innerHTML = 'le montant est supérieur au solde';
             }
-        else if (transa.value == "d" && +montant.value > 2000001)
+        else if (transa.value == "d" && +montant.value > 200001)
             {
-                erreur.innerHTML = 'Vous avez atteint votre plafond';
+                erreur.innerHTML = 'Vous avez atteint votre planfond';
             }
         else
             {
@@ -245,7 +247,7 @@ enregistrer.addEventListener('click', () =>{
                                 numero: numero, date: date,  sens: sens, montant: mont 
                             };
                     personnes[posCourant].transactions.push(objet); 
-                    // console.log(personnes[posCourant]);
+                    console.log(personnes[posCourant]);
 
                     code.innerHTML=personnes[posCourant].transactions.length;
                     solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
@@ -276,7 +278,7 @@ enregistrer.addEventListener('click', () =>{
                             code.innerHTML=personnes[posCourant].transactions.length;
                             solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
                             afficherPersonne(personnes[posCourant]);
-                        setTimeout(() => {
+                            setTimeout(() => {
                             if(transa.value == "r")
                             {
                                 sens = 3;
@@ -330,7 +332,6 @@ enregistrer.addEventListener('click', () =>{
                             objet1.sens='1';
                             objet1.numero= personnes[indice].transactions.length + 1 ;
                             personnes[indice].transactions.push(objet1); 
-                            afficherPersonne(personnes[indice]);
                             form.style.display = 'none';
                         }
                     }
@@ -338,8 +339,6 @@ enregistrer.addEventListener('click', () =>{
             }
       }
   });
-
-
 num.addEventListener('input', (event)=>{
 
     inputNum.style.display = 'block';
@@ -403,6 +402,11 @@ fermeRecherche.addEventListener('click', ()=>{
     recherche.value = '';
     inputRecherche.style.display = 'none';
 });
+
+
+
+
+
 addUser.addEventListener('click', ()=>{
     modal.style.display = 'block'; 
     addNom.value='' ;
@@ -443,7 +447,6 @@ ajouter.addEventListener('click', ()=>{
    }
    else
    {
-         let transactions = afficherTransactions(ajoutPersonne.transactions)
         const ajoutPersonne = {
             id :personnes[personnes.length - 1].id + 1,
             nom: nom,
@@ -452,16 +455,16 @@ ajouter.addEventListener('click', ()=>{
             email: email,
             photo: profil,
             solde: 0,
-            transactions: [
-                {numero: 1 , date: new Date().toLocaleDateString() ,sens: 1, montant: 0 ,}
-        ]
+            transactions: []
         }
-        
         personnes.push(ajoutPersonne);
         let indice = recherNumero(personnes , telephone);
         if(indice != -1)
         afficherPersonne(personnes[indice]);
+
+        posCourant =  personnes.length - 1
          console.log(personnes);
         modal.style.display = 'none';
+        console.log(personnes[posCourant]);
    }
 });
