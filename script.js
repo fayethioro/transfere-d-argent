@@ -224,7 +224,7 @@ enregistrer.addEventListener('click', () =>{
             }
         else if (transa.value == "d" && +montant.value > 2000001)
             {
-                erreur.innerHTML = 'Vous avez atteint votre plan';
+                erreur.innerHTML = 'Vous avez atteint votre planfond';
             }
         else
             {
@@ -278,7 +278,7 @@ enregistrer.addEventListener('click', () =>{
                             code.innerHTML=personnes[posCourant].transactions.length;
                             solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
                             afficherPersonne(personnes[posCourant]);
-                        setTimeout(() => {
+                            setTimeout(() => {
                             if(transa.value == "r")
                             {
                                 sens = 3;
@@ -339,8 +339,6 @@ enregistrer.addEventListener('click', () =>{
             }
       }
   });
-
-
 num.addEventListener('input', (event)=>{
 
     inputNum.style.display = 'block';
@@ -457,9 +455,7 @@ ajouter.addEventListener('click', ()=>{
             email: email,
             photo: profil,
             solde: 0,
-            transactions: [
-                // {numero: '1' , date: new Date().toLocaleDateString() ,sens: '1', montant: 0 ,}
-        ]
+            transactions: []
         }
         personnes.push(ajoutPersonne);
         let indice = recherNumero(personnes , telephone);
