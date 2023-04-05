@@ -54,6 +54,15 @@ const inputRecherche = document.querySelector('.input-search');
 const fermeForm = document.querySelector('.fermer-form');
 const fermeRecherche = document.querySelector('.fermer-recherche');
 
+const ajouter = document.querySelector('#ajouter');
+const annuler = document.querySelector('#annuler')
+const addUser = document.querySelector('.add-user');
+const modal = document.querySelector('.modal-add-user');
+const addNom =document.querySelector('#add-nom');
+const addPrenom =document.querySelector('#add-prenom');
+const addTelephone =document.querySelector('#add-tel');
+const addEmail =document.querySelector('#add-email');
+const addprofil =document.querySelector('#add-profil');
 
 
 const notif = document.querySelector('.notif');
@@ -70,7 +79,6 @@ function afficherPersonne(personne)
     const email = document.querySelector('#email');
     const spinner = document.querySelector('.spinner');
     const photoEl=document.querySelector('.photo');
-    // const tbody=document.querySelector('tbody');
    
     let photo=new Image();
     photo.src =personne.photo;
@@ -81,7 +89,6 @@ function afficherPersonne(personne)
     photo.onload=()=>{
         // desactiver le spinner
         spinner.style.display="none";
-      
         //afficher les informations du personne
         nom.innerHTML=personne.nom;
         prenom.innerHTML=personne.prenom;
@@ -116,8 +123,10 @@ function getTransactionType(sens)
       return 'Dépôt';
      else if (sens == -1) 
       return 'Retrait';
+     else if(sens == 2) 
+      return  `transfere au ${num.value}`;
      else 
-      return 'transfere';
+       return 'transfere annuler'
 }
 // printpersonne(tabpersonne[posCourant]);
 
@@ -125,21 +134,21 @@ afficherPersonne(personnes[posCourant]);
 
 suivant.addEventListener('click',()=>{
     posCourant=randomPos(tailleTab);
-    // console.log(posCourant);
     afficherPersonne(personnes[posCourant]);
-    // tabpersonne[posCourant].transactions.push(newElement)
 });
-function calculeSolde(personnes) {
+function calculeSolde(personnes) 
+{
     let solde = 0;
     personnes.forEach(personne => {
         let mont  = +personne.montant
-        if (personne.sens == 1)  // Si sens = 1, on ajoute le montant
+        if (personne.sens == 1 || personne.sens == 3)  // Si sens = 1, on ajoute le montant
         solde += mont;
         if (personne.sens == -1 || personne.sens == 2 )
             solde -= mont;
     });
     return solde;
-  }
+}
+
 function recherNumero(tableau, numero)
 {
    return  tableau.findIndex(table => table.telephone == numero);  
@@ -251,8 +260,44 @@ enregistrer.addEventListener('click', () =>{
                     let indice = recherNumero(personnes , num.value)
                     if(indice == -1)
                     {
-                        erreur.innerHTML = "le numero n'existe pas ";
-                        
+                        erreur.innerHTML = "le numero n'existe pas "; 
+                       
+                        if(transa.value == "r")
+                            {
+                                sens = -1;
+                            }
+                            erreur.innerHTML = '';
+                            numero=personnes[posCourant].transactions.length + 1 ; 
+                            date = new Date().toLocaleDateString();
+                            mont = montant.value;
+                           
+                            let objet = {
+                                        numero: numero, date: date,  sens:sens , montant: mont 
+                                        }
+                            personnes[posCourant].transactions.push(objet);
+                            code.innerHTML=personnes[posCourant].transactions.length;
+                            solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
+                            afficherPersonne(personnes[posCourant]);
+                        setTimeout(() => {
+                            if(transa.value == "r")
+                            {
+                                sens = 3;
+                            }
+                            erreur.innerHTML = '';
+                            numero=personnes[posCourant].transactions.length + 1 ; 
+                            date = new Date().toLocaleDateString();
+                            mont = montant.value;
+                            let objet = {
+                                        numero: numero, date: date,  sens:sens , montant: mont 
+                                        }
+                            personnes[posCourant].transactions.push(objet);
+                            code.innerHTML=personnes[posCourant].transactions.length;
+                            solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
+                            afficherPersonne(personnes[posCourant]);
+                            form.style.display = 'none';
+                            
+                        }, 3000);
+                        erreur.innerHTML = "le numero n'existe pas "; 
                     }
                     else if( indice == posCourant )
                     {
@@ -266,10 +311,6 @@ enregistrer.addEventListener('click', () =>{
                         }
                         else
                         {
-                            // if(transa.value == "d")
-                            // {
-                            //     sens = 1;
-                            // }
                             if(transa.value == "r")
                             {
                                 sens = 2;
@@ -363,15 +404,7 @@ fermeRecherche.addEventListener('click', ()=>{
     recherche.value = '';
     inputRecherche.style.display = 'none';
 });
-const ajouter = document.querySelector('#ajouter');
-const annuler = document.querySelector('#annuler')
-const addUser = document.querySelector('.add-user');
-const modal = document.querySelector('.modal-add-user');
-const addNom =document.querySelector('#add-nom');
-const addPrenom =document.querySelector('#add-prenom');
-const addTelephone =document.querySelector('#add-tel');
-const addEmail =document.querySelector('#add-email');
-const addprofil =document.querySelector('#add-profil');
+
 
 
 
@@ -416,12 +449,6 @@ ajouter.addEventListener('click', ()=>{
    }
    else
    {
-        // const objet = 
-        // {
-        //     numero : 
-        // }
-        // solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
-        // const solde = solde.innerHTML
         const ajoutPersonne = {
             id :personnes[personnes.length - 1].id + 1,
             nom: nom,
