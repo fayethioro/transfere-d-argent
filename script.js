@@ -222,7 +222,7 @@ enregistrer.addEventListener('click', () =>{
             {
                 erreur.innerHTML = 'le montant est supérieur au solde';
             }
-        else if (transa.value == "d" && +montant.value > 2000001)
+        else if (transa.value == "d" && +montant.value > 20000)
             {
                 erreur.innerHTML = 'Vous avez atteint votre planfond';
             }
@@ -356,7 +356,8 @@ num.addEventListener('input', (event)=>{
         
         li.textContent = `${personne.nom} ${personne.prenom}: ${personne.telephone}`;
         li.addEventListener('click', ()=>{
-        num.value = personne.telephone;
+        num.value = personne.telephone
+        
         inputNum.style.display = 'none';
 
         });
