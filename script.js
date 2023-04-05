@@ -32,7 +32,8 @@ const personnes = [
 
     { id : 5, nom:'moustapha', prenom: 'dione', telephone : '771119878', email : 'mousdione@gmail.com',
     photo: 'https://images.unsplash.com/photo-1508341591423-4347099e1f19?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-      transactions: [{numero: '6' , date: '31/01/2023',sens: '1', montant: 1000 , },
+      transactions: [
+        {numero: '6' , date: '31/01/2023',sens: '1', montant: 1000 , },
         ]  
      },     
 ];
@@ -68,10 +69,8 @@ function afficherPersonne(personne)
     const telephone = document.querySelector('#phone');
     const email = document.querySelector('#email');
     const spinner = document.querySelector('.spinner');
-    
- 
     const photoEl=document.querySelector('.photo');
-    const tbody=document.querySelector('tbody');
+    // const tbody=document.querySelector('tbody');
    
     let photo=new Image();
     photo.src =personne.photo;
@@ -89,21 +88,36 @@ function afficherPersonne(personne)
         telephone.innerHTML=personne.telephone;
         email.innerHTML=personne.email;
         // afficher les transactions
-        tbody.innerHTML="";
-        personne.transactions.forEach(trans=>{
-            tbody.innerHTML+=` <tr>
-            <td>${trans.numero}</td>
-            <td>${trans.date}</td>
-            <td>${trans.sens=='1'?'depot':'retrait' }</td>
-            <td>${trans.montant}</td>
-        </tr>` 
-        });
+        afficherTransactions(personne.transactions);
         code.innerHTML=personne.transactions.length;
         solde.innerHTML = calculeSolde(personne.transactions);
      }
 }
 function randomPos(max) {
     return Math.floor(Math.random()*max);
+}
+function afficherTransactions(transactions)
+{
+    const tbody=document.querySelector('tbody');
+    tbody.innerHTML="";
+    transactions.forEach(trans=>{
+        let sens = getTransactionType(trans.sens);
+        tbody.innerHTML+=` <tr>
+        <td>${trans.numero}</td>
+        <td>${trans.date}</td>
+        <td>${sens}</td>
+        <td>${trans.montant}</td>
+    </tr>` 
+    });
+}
+function getTransactionType(sens)
+ {
+    if (sens == 1) 
+      return 'Dépôt';
+     else if (sens == -1) 
+      return 'Retrait';
+     else 
+      return 'transfere';
 }
 // printpersonne(tabpersonne[posCourant]);
 
@@ -118,11 +132,14 @@ suivant.addEventListener('click',()=>{
 function calculeSolde(personnes) {
     let solde = 0;
     personnes.forEach(personne => {
-      solde += personne.montant * personne.sens ;
+        let mont  = +personne.montant
+        if (personne.sens == 1)  // Si sens = 1, on ajoute le montant
+        solde += mont;
+        if (personne.sens == -1 || personne.sens == 2 )
+            solde -= mont;
     });
     return solde;
   }
-
 function recherNumero(tableau, numero)
 {
    return  tableau.findIndex(table => table.telephone == numero);  
@@ -140,17 +157,12 @@ function afficherNotif(message)
 function EmailValide(inputText)
 {
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    
     if(inputText.match(mailformat))
-    {
       return true;
-    }
     else
-    {
       return false;
-    }  
 }  
-
-
 // =============================================== les evenements ============================
 plus.addEventListener('click', () => {
     form.style =
@@ -175,15 +187,6 @@ fermeForm.addEventListener('click', ()=>{
 });
 
 enregistrer.addEventListener('click', () =>{
-    const table = document.querySelector('.content table');
-    newRow = table.insertRow(table.length );
-  
-    cell1 = newRow.insertCell(0);
-    cell2 = newRow.insertCell(1);
-    cell3 = newRow.insertCell(2);
-    cell4 = newRow.insertCell(3);
-
-
     const transa = document.getElementById('trans');
     const solde=document.querySelector('#solde');
     // const num = document.querySelector('#numero-tel'); 
@@ -220,38 +223,37 @@ enregistrer.addEventListener('click', () =>{
                 {
                     // erreur.innerHTML = 'entrez un numero';
                     if(transa.value == "d")
-                            {
-                                cell3.innerHTML = 1;
-                            }
-                            if(transa.value == "r")
-                            {
-                                cell3.innerHTML = -1;
-                            }
-                            erreur.innerHTML = '';
-                            cell1.innerHTML=personnes[posCourant].transactions.length + 1 ; 
-                            cell2.innerHTML = new Date().toLocaleDateString();
-                            cell4.innerHTML = montant.value;
-                            let  mont = cell4.innerHTML;
-                            let  num =  cell1.innerHTML;
-                            let  date = cell2.innerHTML;
-                            let  sens = cell3.innerHTML;
-                            let objet = {
-                                        numero: num, date: date,  sens: sens, montant: mont 
-                                    };
-                            personnes[posCourant].transactions.push(objet); 
-                            console.log(personnes[posCourant]);
+                    {
+                        sens = 1;
+                    }
+                    if(transa.value == "r")
+                    {
+                        sens = -1;
+                    }
+                    erreur.innerHTML = '';
+                    numero=personnes[posCourant].transactions.length + 1 ; 
+                        date = new Date().toLocaleDateString();
+                        mont = montant.value;
+                    let objet = {
+                                numero: numero, date: date,  sens: sens, montant: mont 
+                            };
+                    personnes[posCourant].transactions.push(objet); 
+                    console.log(personnes[posCourant]);
 
-                            code.innerHTML=personnes[posCourant].transactions.length;
-                            solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
-                            afficherPersonne(personnes[posCourant]);
-                            form.style.display = 'none'; 
+                    code.innerHTML=personnes[posCourant].transactions.length;
+                    solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
+                    afficherPersonne(personnes[posCourant]);
+                    form.style.display = 'none'; 
                 }
                 else
                 {
                     erreur.innerHTML = '';
                     let indice = recherNumero(personnes , num.value)
                     if(indice == -1)
-                    erreur.innerHTML = "le numero n'existe pas ";
+                    {
+                        erreur.innerHTML = "le numero n'existe pas ";
+                        
+                    }
                     else if( indice == posCourant )
                     {
                     erreur.innerHTML = "vous ne pouvez pas faire un retrait sur vous-meme ";
@@ -264,46 +266,31 @@ enregistrer.addEventListener('click', () =>{
                         }
                         else
                         {
-                            if(transa.value == "d")
-                            {
-                                cell3.innerHTML = 1;
-                            }
+                            // if(transa.value == "d")
+                            // {
+                            //     sens = 1;
+                            // }
                             if(transa.value == "r")
                             {
-                                cell3.innerHTML = -1;
+                                sens = 2;
                             }
                             erreur.innerHTML = '';
-                            cell1.innerHTML=personnes[posCourant].transactions.length + 1 ; 
-                            cell2.innerHTML = new Date().toLocaleDateString();
-                            cell4.innerHTML = montant.value;
-                            let  mont = cell4.innerHTML;
-                            let  num =  cell1.innerHTML;
-                            let  date = cell2.innerHTML;
-                            let  sens = cell3.innerHTML;
-                            // sens.innerHTML = 'envoie'
+                            numero=personnes[posCourant].transactions.length + 1 ; 
+                            date = new Date().toLocaleDateString();
+                            mont = montant.value;
+                           
                             let objet = {
-                                        numero: num, date: date,  sens: sens, montant: mont 
+                                        numero: numero, date: date,  sens:sens , montant: mont 
                                         }
                             personnes[posCourant].transactions.push(objet);
-                            
                             code.innerHTML=personnes[posCourant].transactions.length;
                             solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
                             afficherPersonne(personnes[posCourant]);
-                            // console.log(objet);
-                            console.log(personnes[posCourant]);
-                            
+                        
                             let objet1 = {...objet}
                             objet1.sens='1';
-                            
-                            let taille = personnes[indice].transactions.length - 1;
-
-                            objet1.num= personnes[indice].transactions[taille].numero + 1 ;
-                            console.log(objet.num);
-                            
+                            objet1.numero= personnes[indice].transactions.length + 1 ;
                             personnes[indice].transactions.push(objet1); 
-                            // console.log(objet1);
-                            console.log(personnes[indice]);
-                           
                             form.style.display = 'none';
                         }
                     }
@@ -313,31 +300,31 @@ enregistrer.addEventListener('click', () =>{
   });
 
 
-    num.addEventListener('input', (event)=>{
+num.addEventListener('input', (event)=>{
 
-        inputNum.style.display = 'block';
+    inputNum.style.display = 'block';
+
+    rechercheInput.innerHTML = '';
     
-        rechercheInput.innerHTML = '';
-     
-        const rechercheValeur = event.target.value;
-        // console.log(rechercheValeur.length);
-        if (rechercheValeur.length >= 2)  
-        {
-            const filteredPersonnes = personnes.filter(personne => personne.telephone.startsWith(rechercheValeur)) ;
-    
-        filteredPersonnes.forEach(personne => {
-            const li = document.createElement('li');
-          
-            li.textContent = `${personne.nom} ${personne.prenom}: ${personne.telephone}`;
-            li.addEventListener('click', ()=>{
-            num.value = personne.telephone;
-            inputNum.style.display = 'none';
-    
-           });
-           rechercheInput.appendChild(li) 
+    const rechercheValeur = event.target.value;
+    // console.log(rechercheValeur.length);
+    if (rechercheValeur.length >= 2)  
+    {
+        const filteredPersonnes = personnes.filter(personne => personne.telephone.startsWith(rechercheValeur)) ;
+
+    filteredPersonnes.forEach(personne => {
+        const li = document.createElement('li');
+        
+        li.textContent = `${personne.nom} ${personne.prenom}: ${personne.telephone}`;
+        li.addEventListener('click', ()=>{
+        num.value = personne.telephone;
+        inputNum.style.display = 'none';
+
         });
-        }
+        rechercheInput.appendChild(li) 
     });
+    }
+});
 
  recherche.addEventListener('input', ()=>{
 
@@ -386,6 +373,9 @@ const addTelephone =document.querySelector('#add-tel');
 const addEmail =document.querySelector('#add-email');
 const addprofil =document.querySelector('#add-profil');
 
+
+
+
 addUser.addEventListener('click', ()=>{
     modal.style.display = 'block'; 
     addNom.value='' ;
@@ -397,13 +387,14 @@ addUser.addEventListener('click', ()=>{
 annuler.addEventListener('click',()=>{
     modal.style.display = 'none';
 } );
+
 ajouter.addEventListener('click', ()=>{
-    const nom = addNom.value;
-    const prenom = addPrenom.value;
-    const telephone = addTelephone.value;
-    const email = addEmail.value;
-    const profil = addprofil.value;
-    const solde = 0;
+     const  nom = addNom.value;
+    const  prenom = addPrenom.value;
+    const  telephone = addTelephone.value;
+    const  email = addEmail.value;
+    const  profil = addprofil.value;
+    
     let isvalid =  EmailValide(email);
    let  existe = recherNumero(personnes , telephone)
    if (nom == ""|| prenom == ""|| telephone == ""|| email == "" 
@@ -425,6 +416,12 @@ ajouter.addEventListener('click', ()=>{
    }
    else
    {
+        // const objet = 
+        // {
+        //     numero : 
+        // }
+        // solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
+        // const solde = solde.innerHTML
         const ajoutPersonne = {
             id :personnes[personnes.length - 1].id + 1,
             nom: nom,
@@ -432,9 +429,9 @@ ajouter.addEventListener('click', ()=>{
             telephone: telephone,
             email: email,
             photo: profil,
-            solde: solde,
+            solde: 0,
             transactions: [
-                {numero: '1' , date: new Date().toLocaleDateString() ,sens: '1', montant: '0' ,}
+                {numero: '1' , date: new Date().toLocaleDateString() ,sens: '1', montant: 0 ,}
         ]
         }
         personnes.push(ajoutPersonne);
