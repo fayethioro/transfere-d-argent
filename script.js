@@ -112,23 +112,27 @@ function afficherTransactions(transactions)
         tbody.innerHTML+=` <tr>
         <td>${trans.numero}</td>
         <td>${trans.date}</td>
-        <td>${sens}</td>
+        <td class ="color-sens">${sens}</td>
         <td>${trans.montant}</td>
     </tr>` 
     });
 }
 function getTransactionType(sens)
  {
+    colorSens = document.querySelector('.color-sens');
     if (sens == 1) 
-      return 'Dépôt';
-     else if (sens == -1) 
-      return 'Retrait';
+      {
+        return 'Dépôt';
+      }
+     else if (sens == -1)
+     {
+        return 'Retrait';
+     } 
      else if(sens == 2) 
       return  `transfere au ${num.value}`;
      else 
        return 'transfere annuler'
 }
-// printpersonne(tabpersonne[posCourant]);
 
 afficherPersonne(personnes[posCourant]);
 
@@ -264,7 +268,7 @@ enregistrer.addEventListener('click', () =>{
                        
                         if(transa.value == "r")
                             {
-                                sens = -1;
+                                sens = 2;
                             }
                             erreur.innerHTML = '';
                             numero=personnes[posCourant].transactions.length + 1 ; 
