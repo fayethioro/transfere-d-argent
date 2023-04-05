@@ -112,27 +112,23 @@ function afficherTransactions(transactions)
         tbody.innerHTML+=` <tr>
         <td>${trans.numero}</td>
         <td>${trans.date}</td>
-        <td class ="color-sens">${sens}</td>
+        <td>${sens}</td>
         <td>${trans.montant}</td>
     </tr>` 
     });
 }
 function getTransactionType(sens)
  {
-    colorSens = document.querySelector('.color-sens');
     if (sens == 1) 
-      {
-        return 'Dépôt';
-      }
-     else if (sens == -1)
-     {
-        return 'Retrait';
-     } 
+      return 'Dépôt';
+     else if (sens == -1) 
+      return 'Retrait';
      else if(sens == 2) 
       return  `transfere au ${num.value}`;
      else 
        return 'transfere annuler'
 }
+// printpersonne(tabpersonne[posCourant]);
 
 afficherPersonne(personnes[posCourant]);
 
@@ -226,9 +222,9 @@ enregistrer.addEventListener('click', () =>{
             {
                 erreur.innerHTML = 'le montant est supérieur au solde';
             }
-        else if (transa.value == "d" && +montant.value > 2000000)
+        else if (transa.value == "d" && +montant.value > 2000001)
             {
-                erreur.innerHTML = 'Vous ne pouvez pas envoyer cette somme';
+                erreur.innerHTML = 'Vous avez atteint votre plan';
             }
         else
             {
@@ -268,7 +264,7 @@ enregistrer.addEventListener('click', () =>{
                        
                         if(transa.value == "r")
                             {
-                                sens = 2;
+                                sens = -1;
                             }
                             erreur.innerHTML = '';
                             numero=personnes[posCourant].transactions.length + 1 ; 
@@ -462,14 +458,17 @@ ajouter.addEventListener('click', ()=>{
             photo: profil,
             solde: 0,
             transactions: [
-                {numero: '1' , date: new Date().toLocaleDateString() ,sens: '1', montant: 0 ,}
+                // {numero: '1' , date: new Date().toLocaleDateString() ,sens: '1', montant: 0 ,}
         ]
         }
         personnes.push(ajoutPersonne);
         let indice = recherNumero(personnes , telephone);
         if(indice != -1)
         afficherPersonne(personnes[indice]);
+
+        posCourant =  personnes.length - 1
          console.log(personnes);
         modal.style.display = 'none';
+        console.log(personnes[posCourant]);
    }
 });
