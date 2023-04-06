@@ -462,7 +462,7 @@ ajouter.addEventListener('click', ()=>{
         if(indice != -1)
         afficherPersonne(personnes[indice]);
 
-        posCourant =  personnes.length - 1
+        posCourant =  personnes.length - 1;
          console.log(personnes);
         modal.style.display = 'none';
         console.log(personnes[posCourant]);
