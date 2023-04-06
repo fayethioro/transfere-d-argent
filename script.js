@@ -468,3 +468,5 @@ ajouter.addEventListener('click', ()=>{
         console.log(personnes[posCourant]);
    }
 });
+
+
