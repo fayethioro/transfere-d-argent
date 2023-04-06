@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    
+            <!-- <div class="supprimer">
+                <button type="submit" class="oui">Oui</button>
+                <button type="reset" class="non">Non</button>
+            </div> -->
     <div class="container dflex jcc aic fdc">
         <div class="card">
             <div class="infos dflex">
@@ -46,15 +51,15 @@
                 <div class="content">
                     <table>
                         <thead>
-                            <tr>
+                            <tr  >
                                 <th>Numero</th>
                                 <th>Date</th>
                                 <th>Sens</th>
                                 <th>Montant</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
+                        <tbody class="sup">
+                            <tr >
                                 <td>...</td>
                                 <td>...</td>
                                 <td>...</td>
@@ -65,6 +70,16 @@
                     </table>
                 </div>
             </div>
+            <!-- <div class="sup-transfere">
+                <div class="sup-header">
+                    <h4>Voulez vous annuler ce transfere (Oui/Non)</h4>
+                </div>
+                 <div class="sup-condition"></div>
+                 <div class="sup-footer">
+                    <button type="submit" class="oui">Oui</button>
+                    <button type="reset" class="non">Non</button>
+                 </div>
+            </div> -->
             <div class="spinner">
                 <img src="images/spinner2.gif" alt="">
             </div>
@@ -90,7 +105,7 @@
                     <div class="erreur"></div>
                     
                 </div>
-                <button type="button">Enregistrer</button>
+                <button type="button" class="enregister">Enregistrer</button>
                 <div class="fermer-form dflex jcc aic">X</div>
             </div>
 
@@ -143,7 +158,16 @@
 
     <div class="notif"></div>
     
-
+    <div class="sup-transfere">
+        <div class="sup-header">
+            <h2>Voulez vous annuler ce transfere (Oui/Non)</h2>
+        </div>
+         <div class="sup-condition"></div>
+         <div class="sup-footer">
+            <button type="submit" class="oui">Oui</button>
+            <button type="reset" class="non">Non</button>
+         </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

@@ -410,4 +410,41 @@ button
     height: 30px;
     font-size: 1.2em;
 }
+tr
+{
+    cursor: pointer;
+}
+tr:hover
+{
+    background-color: white;
+    color: #06293D;
+}
 
+.sup-transfere
+{
+    height: 300px;
+    width: 400px;
+
+     position: absolute;
+    top: 20%;
+    left: 35%;
+    display: none; 
+    z-index: 1000;
+}
+.sup-header, .sup-footer
+{
+    height: 30%;
+    gap: 20px;
+    color: white;
+    background: linear-gradient(90deg, #1a1919f7 3%, #1609796b 100%, #00d4ff 100%);
+}
+.sup-condition
+{
+    height: 40%;
+    color: red;
+    font-size: 1.2em;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 900;
+
+    background: linear-gradient(90deg, #0d0b0bf7 3%, #304b5176 100%,  #00d4ff 100%);
+}

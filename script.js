@@ -41,7 +41,7 @@ const personnes = [
 const suivant=document.querySelector('.next');
 const plus = document.querySelector('.btn-detail');
 const form = document.querySelector('.form');
-const enregistrer = document.querySelector('button');
+const enregistrer = document.querySelector('.enregister');
 const code = document.querySelector('code');
 const erreur = document.querySelector('.erreur');
 const num = document.querySelector('#numero-tel');
@@ -109,7 +109,7 @@ function afficherTransactions(transactions)
     tbody.innerHTML="";
     transactions.forEach(trans=>{
         let sens = getTransactionType(trans.sens);
-        tbody.innerHTML+=` <tr>
+        tbody.innerHTML+=` <tr >
         <td>${trans.numero}</td>
         <td>${trans.date}</td>
         <td>${sens}</td>
@@ -117,6 +117,75 @@ function afficherTransactions(transactions)
     </tr>` 
     });
 }
+supprime = document.querySelectorAll('.sup');
+
+supTransfere = document.querySelector('.sup-transfere');
+
+
+
+supprime.forEach(sup => {
+    sup.addEventListener('click', ()=>{
+         supTransfere.style.display = 'block';
+        // alert('ok')
+        // console.log('znevbjf');
+        // supCondition.innerHTML = ''
+        personnes[posCourant].transactions.forEach(trans=>{
+            let sens = getTransactionType(trans.sens);
+            if(sens == 'Retrait' || sens == 'transfere annuler' || sens == 'Dépôt')
+            {
+                supCondition.innerHTML = "vous ne pouvez annuler qu'un transfert"
+            }
+            if(sens== `transfere au ${num.value}`)
+            {
+                supCondition.innerHTML = '';
+                oui.addEventListener('click' ,()=>{
+                  
+                    numero=personnes[posCourant].transactions.length + 1 ; 
+                    date = new Date().toLocaleDateString();
+                    mont = montant.value;
+                    
+                    let objet = {
+                                numero: numero, date: date,  sens:sens , montant: mont 
+                                }
+                    let objet2 = {...objet}
+                    objet2.sens='4';
+                    personnes[posCourant].transactions.push(objet2);
+                    code.innerHTML=personnes[posCourant].transactions.length;
+                    solde.innerHTML = calculeSolde(personnes[posCourant].transactions);
+                    afficherPersonne(personnes[posCourant]);
+                    // console.log(objet2);
+
+                let  indice=recherNumero(personnes, num.value)
+                 if (indice !=-1) {
+                    let objet1 = {...objet}
+                    objet1.sens='5';
+                    objet1.numero= personnes[indice].transactions.length + 1 ;
+                    personnes[indice].transactions.push(objet1); 
+                    
+                    supTransfere.style.display = 'none'; 
+                     // afficherPersonne(personnes[indice])
+                 }
+                // sup.setAttribute('disabled');
+                  
+                } )
+                
+            }
+            // sup.setAttribute('disabled');
+        });
+    })
+    
+});
+
+const oui = document.querySelector('.oui');
+
+const non = document.querySelector('.non');
+const supCondition = document.querySelector('.sup-condition');
+
+non.addEventListener('click' , ()=>{
+    supTransfere.style.display = 'none'; 
+})
+
+
 function getTransactionType(sens)
  {
     if (sens == 1) 
@@ -125,8 +194,16 @@ function getTransactionType(sens)
       return 'Retrait';
      else if(sens == 2) 
       return  `transfere au ${num.value}`;
-     else 
+     else if(sens == 3) 
        return 'transfere annuler'
+       else if(sens == 4) 
+       {
+        return  `transfere rembouser`;
+       }
+       else if(sens == 5) 
+       {
+        return  `<del>cette transfere a été annuler</del> `;
+       }
 }
 // printpersonne(tabpersonne[posCourant]);
 
@@ -135,15 +212,16 @@ afficherPersonne(personnes[posCourant]);
 suivant.addEventListener('click',()=>{
     posCourant=randomPos(tailleTab);
     afficherPersonne(personnes[posCourant]);
+    console.log(supprime.length);
 });
 function calculeSolde(personnes) 
 {
     let solde = 0;
     personnes.forEach(personne => {
         let mont  = +personne.montant
-        if (personne.sens == 1 || personne.sens == 3)  // Si sens = 1, on ajoute le montant
+        if (personne.sens == 1 || personne.sens == 3 || personne.sens == 4 )  // Si sens = 1, on ajoute le montant
         solde += mont;
-        if (personne.sens == -1 || personne.sens == 2 )
+        if (personne.sens == -1 || personne.sens == 2 ||  personne.sens == 5)
             solde -= mont;
     });
     return solde;
@@ -264,7 +342,7 @@ enregistrer.addEventListener('click', () =>{
                        
                         if(transa.value == "r")
                             {
-                                sens = -1;
+                                sens = 2;
                             }
                             erreur.innerHTML = '';
                             numero=personnes[posCourant].transactions.length + 1 ; 
@@ -403,10 +481,6 @@ fermeRecherche.addEventListener('click', ()=>{
     inputRecherche.style.display = 'none';
 });
 
-
-
-
-
 addUser.addEventListener('click', ()=>{
     modal.style.display = 'block'; 
     addNom.value='' ;
@@ -468,5 +542,3 @@ ajouter.addEventListener('click', ()=>{
         console.log(personnes[posCourant]);
    }
 });
-
-
