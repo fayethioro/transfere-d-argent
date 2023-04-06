@@ -195,14 +195,14 @@ function getTransactionType(sens)
      else if(sens == 2) 
       return  `transfere au ${num.value}`;
      else if(sens == 3) 
-       return 'transfere annuler'
+       return `<span style="color: blue  ">transfere annuler</span>`
        else if(sens == 4) 
        {
-        return  `transfere rembouser`;
+        return  `<span style="color: blue " >transfere rembourser</span>`;
        }
        else if(sens == 5) 
        {
-        return  `<del>cette transfere a été annuler</del> `;
+        return  `<del style="color: red ">cette transfere a été annuler</del>`           
        }
 }
 // printpersonne(tabpersonne[posCourant]);
@@ -212,7 +212,7 @@ afficherPersonne(personnes[posCourant]);
 suivant.addEventListener('click',()=>{
     posCourant=randomPos(tailleTab);
     afficherPersonne(personnes[posCourant]);
-    console.log(supprime.length);
+    // console.log(supprime.length);
 });
 function calculeSolde(personnes) 
 {
