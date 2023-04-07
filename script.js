@@ -346,7 +346,6 @@ enregistrer.addEventListener('click', () =>{
       }
   });
 fermerDetail.addEventListener('click',()=>detail.style.display = 'none')
-
 function dater() {
     let date = new Date();
     // Options de localisation pour la date et l'heure
@@ -358,16 +357,9 @@ function dater() {
     minute: 'numeric',
     hour12: false
     };
-
-    // Obtenir la date et l'heure locale avec les options de localisation
     let dateLocale = date.toLocaleString('fr-FR', options);
-
-    // Afficher la date et l'heure locale
-    // console.log(dateLocale);
     return dateLocale
 }
-let  dta = dater();
-console.log(dta);
 num.addEventListener('input', (event)=>{
     inputNum.style.display = 'block';
     rechercheInput.innerHTML = '';
@@ -461,10 +453,6 @@ ajouter.addEventListener('click', ()=>{
         console.log(personnes[posCourant]);
    }
 });
-
-
-
-// annuler transfere
 
 
 
