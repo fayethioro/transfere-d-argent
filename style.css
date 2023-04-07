@@ -203,7 +203,7 @@ tr,td{
     left: 0;
 }
 
-.notif
+.notif, .detail  
 {
     width: 50%;
     height: auto;
@@ -212,11 +212,27 @@ tr,td{
     left: 0;
     background: #06293D;
     display: none;
+}
+
+.detail 
+{
+    height: 200px;
+    left: 25%;
+    color: white;
+    font-size: 1.4em;
+    font-weight: bold;
+    text-align: center;
+    background: linear-gradient(90deg, #1a1919f7 3%, #1609796b 100%, #00d4ff 100%);
+}
+
+.notif
+{
     animation: 1s anim ease-in infinite;
     color: white;
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.6em;
     font-weight: bold;
+   
     /* transform: translateX(50%);
     transition: transform 5000ms linear */
     animation: anim 5s linear infinite ;
@@ -324,20 +340,28 @@ li
 {
     background-color:#00d4ff;
 }
-.fermer-form, .fermer-recherche
+.fermer-form, .fermer-recherche, .fermer-detail
 {
    width: 30px;
    height: 30px;
-   background: transparent;
    position: absolute;
    top: 0;
    right: 0;
    cursor: pointer;
    font-weight: 900;
    font-size: 1.2em;
-   border: solid 1px #27566B;
+   background: transparent;
 }
-.fermer-form:hover, .fermer-recherche:hover 
+.fermer-detail
+{
+    color: white;
+    border: solid 1px  #1609796b;
+}
+.fermer-form, .fermer-recherche
+{
+    border: solid 1px #27566B;
+}
+.fermer-form:hover, .fermer-recherche:hover,.fermer-detail:hover 
 {
     background: red;
     border-radius: 10px;
